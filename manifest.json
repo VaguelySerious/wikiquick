@@ -1,22 +1,23 @@
 {
   "name": "WikiQuick",
-  "version": "1.0",
-  "description": "An extension for conveniently looking up wikipedia info",
+  "version": "0.1.0",
   "manifest_version": 2,
-  "options_page": "options.html",
-  "permissions": [
-    "storage",
-    "tabs"
-  ],
+  "description": "An extension for conveniently looking up wikipedia info",
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": false
   },
+  "web_accessible_resources": ["inject.js"],
   "browser_action": {
-    // "default_icon": "",
-    "default_popup": "popup.html",
-    "default_title": "WikiQuick"
+    "default_title": "JUST DO IT (manifest.json)"
   },
+  "permissions": [
+    "https://*/*",
+    "http://*/*",
+    "tabs"
+  ],
   "icons": {
     "16": "images/get_started16.png",
     "32": "images/get_started32.png",
