@@ -11,22 +11,20 @@
     if (!selection) return;
 
     popupOpen = true;
-    GET('https://de.wikipedia.org/api/rest_v1/page/summary/Audiovisuelle_Medien', (res) => {
+    GET('https://de.wikipedia.org/api/rest_v1/page/summary/' + selection, (res) => {
       apiData = JSON.parse(res);
-      insertPopup(apiData.extract_html);
+      insertPopup(apiData.extract_html, apiData.originalimage);
       popupOpen = false; // TODO Remove
     });
   }
 
-  function insertPopup(html) {
+  function insertPopup(html, imageURL) {
     // TODO Actually display popup
+    // TODO If there is image insert it
     var div = document.createElement('div');
-    div.style.position = 'absolute';
-    div.style.top = 400;
-    div.style.left = 400;
-    div.style.height = 200;
-    div.style.width = 200;
-    div.textContent = html;
+    div.setAttribute('id', 'wikiquickpopup');
+    var style = '<style>#wikiquickpopup{position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);background: white;padding: 20px;box-shadow: 0 2px 5px -2px rgba(0,0,0,0.4), 0 10px 25px rgba(0,0,0,0.2);font-size: 16px;border-radius: 5px;max-width: 400px;}</style>';
+    div.innerHTML = style + html;
     document.body.appendChild(div);
     popupNode = div;
   }
@@ -55,7 +53,6 @@
   document.addEventListener('click', (event) => {
     if (clickTimeout !== null && !popupOpen) {
       getPopup(event);
-      console.log('lala');
     } else {
       clickTimeout = window.setTimeout(() => {
         clickTimeout = null;
