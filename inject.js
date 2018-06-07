@@ -29,10 +29,9 @@
     selection = linkEncode(selection);
     if (!selection) return;
 
-    popupOpen = true;
-    GET('https://de.wikipedia.org/api/rest_v1/page/summary/' + selection, (res) => {
+    GET('https://en.wikipedia.org/api/rest_v1/page/summary/' + selection, (res) => {
+      popupOpen = true;
       apiData = JSON.parse(res);
-      popupOpen = false; // TODO Remove // maybe not?
       insertPopup(range, apiData.extract_html, apiData.originalimage);
     });
   }
@@ -111,7 +110,7 @@
       if (this.readyState === 4) {
         if (this.status === 200) {
           callback(this.responseText);
-        } else callback();
+        }
       }
     };
     req.open('GET', url, true);
