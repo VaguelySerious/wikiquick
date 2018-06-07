@@ -4,7 +4,7 @@
 (function() {
   var keyframes = '@keyframes wikiquickfadeinup {0% {opacity: 0;transform: translateY(10px);} 100% {opacity: 1; transform: translateY(0);}}' +
     '@keyframes wikiquickfadeindown {0% {opacity: 0;transform: translateY(-10px);} 100% {opacity: 1; transform: translateY(0);}}';
-  var styles = '<style>#wikiquickpopup {background: white;border: 1px solid #eee;border-radius: 5px;box-shadow: 0 2px 5px -2px rgba(0,0,0,0.4), 0 10px 25px rgba(0,0,0,0.2);display: flex;flex-wrap: wrap;font-size: 14px;max-width: 300px;padding: 12px 20px;position: absolute;' +
+  var styles = '<style>#wikiquickpopup {background: white;border: 1px solid #eee;border-radius: 5px;box-shadow: 0 2px 5px -2px rgba(0,0,0,0.4), 0 10px 25px rgba(0,0,0,0.2);display: flex;flex-wrap: wrap;font-size: 14px;max-width: 300px;padding: 12px 20px;position: absolute;z-index:99999999999;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";' +
     '} #wikiquickpopup::after {border: 7px solid transparent;content: "";left: 50%;margin-left: -7px;position: absolute;' +
     '} #wikiquickpopup::before {border: 8px solid transparent;content: "";left: 50%;margin-left: -8px;position: absolute;' +
     '} #wikiquickpopup.wqtop { animation: wikiquickfadeindown 0.2s ease-out;' +
