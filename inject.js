@@ -15,6 +15,7 @@
     '} #wikiquickpopup.wqbottom::before {border-bottom-color: #e0e0e0;border-top: 0;bottom: 100%;' +
     '} #wikiquickpopup p {font-size: inherit;line-height: 1.4;margin: 0;width: 100%;' +
     '} #wikiquickpopup ul {list-style-type: disc;list-style-image: none;margin: 0.5em 0 0;padding-left:1.125em;width: 100%;' +
+    '} #wikiquickpopup li {list-style: inherit;padding:0;' +
     '}' + keyframes + '</style>';
 
 
