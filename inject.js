@@ -1,7 +1,4 @@
-// TODO: if there's a JSON error once, the entire thing won't work again
-
-
-(function() {
+// (function() {
   var keyframes = '@keyframes wikiquickfadeinup {0% {opacity: 0;transform: translateY(10px);} 100% {opacity: 1; transform: translateY(0);}}' +
     '@keyframes wikiquickfadeindown {0% {opacity: 0;transform: translateY(-10px);} 100% {opacity: 1; transform: translateY(0);}}';
   var styles = '<style>#wikiquickpopup {background: white;border: 1px solid #eee;border-radius: 5px;box-shadow: 0 2px 5px -2px rgba(0,0,0,0.4), 0 10px 25px rgba(0,0,0,0.2);display: flex;flex-wrap: wrap;font-size: 14px;max-width: 300px;padding: 12px 20px;position: absolute;z-index:99999999999;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";' +
@@ -18,99 +15,79 @@
     '} #wikiquickpopup li {list-style: inherit;padding:0;' +
     '}' + keyframes + '</style>';
 
-
-  var clickTimeout = null;
-  var popupOpen = false;
-  var popupNode = null;
-
-  function getPopup(event) {
-    var selectionRef = document.getSelection();
-    var selection = selectionRef.toString();
-    var range = selectionRef.getRangeAt(0);
-    selection = linkEncode(selection);
-    if (!selection) return;
-
-    GET('https://en.wikipedia.org/api/rest_v1/page/summary/' + selection, (res) => {
-      popupOpen = true;
-      apiData = JSON.parse(res);
-      insertPopup(range, apiData.extract_html, apiData.originalimage);
-    });
-  }
-
-  function findAbsolutePosition(node) {
-    var curleft = curtop = 0;
-
-    if (node.offsetParent) {
-      do {
-        curleft += node.offsetLeft;
-        curtop += node.offsetTop;
+  class WikiPopup {
+    constructor(styles, jsonFetchFunction) {
+      this.node = document.createElement('div');
+      this.node.id = 'wikiquickpopup';
+      this.node.className = 'wqtop';
+      this.styles = styles;
+      this.language = 'en';
+      this.get = jsonFetchFunction;
+      this.isOpen = false;
+    }
+    close() {
+      this.node.remove();
+      // TODO Remove this after deleting other usages
+      var marker = document.querySelector('#wikiquickmarker');
+      if (marker) {
+        marker.remove();
       }
-      while (node = node.offsetParent)
+      this.isOpen = false;
     }
-
-    return {
-      x: curleft,
-      y: curtop
+    open() {
+      document.body.appendChild(this.node);
+      this.isOpen = true;
     }
-  }
-
-  function insertPopup(range, html, imageURL) {
-    // TODO Actually display popup
-    // TODO If there is image insert it
-
-    if (html) {
-      var r = range.getBoundingClientRect();
-      var div = document.createElement('div');
-      div.id = 'wikiquickpopup';
-      div.className = 'wqtop';
-      div.innerHTML = styles + html;
-      document.body.appendChild(div);
-
-      popupNode = div;
-      popupOpen = true;
-
+    setContent(html, image) {
+      // TODO Image
+      this.node.innerHTML = styles + html;
+    }
+    setPosition(range) {
+      var bounds = range.getBoundingClientRect();
       var marker = document.createElement('span');
       marker.innerHTML = '&#xfeff;';
       marker.id = 'wikiquickmarker';
       range.insertNode(marker);
-
+      
       var pos = findAbsolutePosition(marker);
-      var left = r.x - popupNode.clientWidth / 2 + r.width / 2;
-      var top = pos.y - popupNode.clientHeight - 17;
+      var left = bounds.x - this.node.clientWidth / 2 + bounds.width / 2;
+      var top = pos.y - this.node.clientHeight - 17;
 
-      if (r.top < (popupNode.clientHeight + 30)) {
-        top = pos.y + r.height + 10;
-        popupNode.className = 'wqbottom';
+      if (bounds.top < (this.node.clientHeight + 30)) {
+        top = pos.y + bounds.height + 10;
+        this.node.className = 'wqbottom';
       }
 
-      popupNode.style.left = left + 'px';
-      popupNode.style.top = top + 'px';
+      this.node.style.left = left + 'px';
+      this.node.style.top = top + 'px';
+    }
+    lookup(string) {
+      var endpoint = `https://${this.language}.wikipedia.org/api/rest_v1/page/summary/${string}`; 
+      this.get(endpoint, (res) => {
+        this.setContent(res.extract_html, res.originalimage);
+        this.open();
+      });
+    }
+    fromHighlightedText() {
+      var selectionRef = document.getSelection();
+      var selection = selectionRef.toString();
+      var range = selectionRef.getRangeAt(0);
+      // TODO Capitalize single words
+      // TODO Return null if Sonderzeichen
+      selection = selection.trim().replace(/\ /g, '_');
+      this.setPosition(range);
+      this.lookup(selection);
     }
   }
 
-  function hidePopup() {
-    if (popupNode) {
-      popupNode.remove();
-      popupNode = null;
-      popupOpen = false;
-
-      var marker = document.querySelector('#wikiquickmarker');
-      if (marker) marker.remove();
-    }
-  }
-
-  function linkEncode(word) {
-    // TODO Capitalize single words
-    // TODO Return null if Sonderzeichen
-    return word.trim().replace(/\ /g, '_');
-  }
-
-  function GET(url, callback) {
+  function fetchUrl(url, callback) {
     var req = new XMLHttpRequest();
     req.onreadystatechange = function onResponse() {
       if (this.readyState === 4) {
         if (this.status === 200) {
-          callback(this.responseText);
+          callback(JSON.parse(this.responseText));
+        } else {
+          callback({extract_html: "Failed to look up this word"});
         }
       }
     };
@@ -118,19 +95,44 @@
     req.send();
   }
 
-  document.addEventListener('click', (event) => {
-    if (popupOpen && popupNode &&
-        !popupNode.contains(event.target) && event.target !== popupNode) {
-      hidePopup();
+  function findAbsolutePosition(node) {
+    var curleft = curtop = 0;
+    
+    // Sum offsets from node to document root
+    if (node.offsetParent) {
+      do {
+        curleft += node.offsetLeft;
+        curtop += node.offsetTop;
+      }
+      while (node = node.offsetParent);
     }
 
-    if (clickTimeout !== null && !popupOpen) {
-      getPopup(event);
+    return {
+      x: curleft,
+      y: curtop
+    };
+  }
+
+  // TODO Bind click on popup to do nothing
+  // TODO Bind click on document to close popup
+  let popup = new WikiPopup(styles, fetchUrl);
+  
+  var clickTimeout = null;
+  document.addEventListener('click', (event) => {
+    // Close popup on click outside
+    if (popup.isOpen && !popup.node.contains(event.target)) {
+      popup.close();
+    }
+    
+    // Lookup selected word on double click
+    if (clickTimeout !== null && !popup.isOpen) {
+      popup.fromHighlightedText();
     } else {
-      clickTimeout = window.setTimeout(() => {
+      clickTimeout = setTimeout(() => {
+        clearTimeout(clickTimeout);
         clickTimeout = null;
       }, 250);
     }
   });
 
-})();
+// })();
