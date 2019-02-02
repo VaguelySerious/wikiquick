@@ -17,12 +17,17 @@ This is a personal project. I am not affiliated with Wikipedia in any way. While
 
 ## Roadmap
 
-+ First release (soon)
-  + Better word matching
-  + Bug fixes
++ First release (02. Februrary 2019)
+  + Basic functionality
+  + Code refactor
 
-+ Second release (February 2019)
++ February 2019
+  + Off-screen handling
+  + Better positioning
   + Loading animation while fetching data
+
++ March 2019
+  + Better word matching
   + Language settings
   + On/Off toggle
   + Support for images
