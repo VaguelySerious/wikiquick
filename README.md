@@ -5,11 +5,14 @@ A lightweight plugin for in-page Wikipedia lookups by double-clicking on any wor
 ## How to run
 
 Currently available only as an unpacked Chrome extension.
-To use this while it is still unpublished:
+Here's how to use it while it's still unpublished:
+
 + Clone the repo
-+ Go to [chrome://extensions/](the extensions page) in Chrome
++ Go to [the extensions page](chrome://extensions/) in Chrome
 + Enable developer mode on the top right
-+ Click "Load unpacked" on the top left and navigate to the cloned repo
++ Click "Load unpacked" on the top left and navigate to `/public/` in the cloned repo
++ Go to a web page of your choice
++ Double click on a word
 
 ## Disclaimer
 
