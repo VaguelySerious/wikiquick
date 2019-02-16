@@ -1,4 +1,7 @@
 import './styles/styles.sass';
+import WikiAPI from './wikiapi.js';
+
+const wikiAPI = new WikiAPI();
 
 // (function() {
   class WikiPopup {
@@ -47,13 +50,7 @@ import './styles/styles.sass';
       this.node.style.left = left + 'px';
       this.node.style.top = top + 'px';
     }
-    lookup(string) {
-      var endpoint = `https://${this.language}.wikipedia.org/api/rest_v1/page/summary/${string}`; 
-      this.get(endpoint, (res) => {
-        this.setContent(res.extract_html, res.originalimage);
-        this.open();
-      });
-    }
+
     fromHighlightedText() {
       var selectionRef = document.getSelection();
       var selection = selectionRef.toString();
@@ -62,23 +59,12 @@ import './styles/styles.sass';
       // TODO Return null if Sonderzeichen
       selection = selection.trim().replace(/\ /g, '_');
       this.setPosition(range);
-      this.lookup(selection);
-    }
-  }
 
-  function fetchUrl(url, callback) {
-    var req = new XMLHttpRequest();
-    req.onreadystatechange = function onResponse() {
-      if (this.readyState === 4) {
-        if (this.status === 200) {
-          callback(JSON.parse(this.responseText));
-        } else {
-          callback({extract_html: "Failed to look up this word"});
-        }
-      }
-    };
-    req.open('GET', url, true);
-    req.send();
+      wikiAPI.lookup(selection, (res) => {
+        this.setContent(res.text);
+        this.open();
+      });
+    }
   }
 
   function findAbsolutePosition(node) {
@@ -101,7 +87,7 @@ import './styles/styles.sass';
 
   // TODO Bind click on popup to do nothing
   // TODO Bind click on document to close popup
-  let popup = new WikiPopup(fetchUrl);
+  let popup = new WikiPopup();
   
   var clickTimeout = null;
   document.addEventListener('click', (event) => {
