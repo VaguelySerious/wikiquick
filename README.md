@@ -8,6 +8,8 @@ Currently available only as an unpacked Chrome extension.
 Here's how to use it while it's still unpublished:
 
 + Clone the repo
++ Run `npm install` or `yarn install`
++ Build it with `npm run build` or `yarn build`
 + Go to [the extensions page](chrome://extensions/) in Chrome
 + Enable developer mode on the top right
 + Click "Load unpacked" on the top left and navigate to `/public/` in the cloned repo
@@ -25,18 +27,26 @@ This is a personal project. I am not affiliated with Wikipedia in any way. While
   + Code refactor
 
 + February 2019
-  + Off-screen handling
-  + Better positioning
+  + Support for images
+  + Better positioning and off-screen handling
   + Loading animation while fetching data
 
 + March 2019
-  + Better word matching
-  + Language settings
-  + On/Off toggle
-  + Support for images
+  + Support for disambiguation
+  + Settings:
+    + On/Off toggle
+    + Choice of selection method (double click or hotkey)
+    + Choice of language
 
 + Chrome Web Store release (March 2019)
 
-+ Feature additions (2019)
-  + Support for amibguos definitions
-  + Fuzzy matching to Index of Wikipedia articles
++ Planned features (2019)
+  + Expand popup to read more
+  + External link to Wikipedia
+  + Match multiple languages at once
+    + Useful for multilinguals
+    + Helps translating foreign words
+  + Translate item to favorite languages
+
++ Features in consideration
+  + Locally saved history of lookups
