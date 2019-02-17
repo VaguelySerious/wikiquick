@@ -50,3 +50,5 @@ This is a personal project. I am not affiliated with Wikipedia in any way. While
 
 + Features in consideration
   + Locally saved history of lookups
+  + Firefox Support
+  + Safari Support

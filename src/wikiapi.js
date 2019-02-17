@@ -12,7 +12,7 @@ export default class WikiAPI {
   lookup (name, cb) {
     this.fetch(name, 'summary', (summary) => {
       if (summary.type === 'disambiguation') {
-        cb({text: 'AAAAH Disambiguation'});
+        cb({text: 'This word is ambiguos. Wikiquick does not currently support disambiguation. Check back in March 2019.'});
       } else {
         this.fetch (name, 'media', (media) => {
           console.log('Output:', media);
