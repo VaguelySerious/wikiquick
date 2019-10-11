@@ -1,6 +1,7 @@
 # WikiQuick
 
-A lightweight plugin for in-page Wikipedia lookups by double-clicking on any word.
+A lightweight plugin for in-page Wikipedia lookups by double-clicking on any word.  
+Creates information windows similar in style to those when hovering over links in Wikipedia.
 
 ## How to run
 
@@ -18,7 +19,9 @@ Here's how to use it while it's still unpublished:
 
 ## Disclaimer
 
-This is a personal project. I am not affiliated with Wikipedia in any way. While the CORS headers set on the Wikipedia rest_v1 API do not prohibit this kind of usage, keep in mind that it has not been expressly allowed by Wikipedia.
+This is a personal project designed to be used for educational purposes only. I am not affiliated with Wikimedia in any way.
+By using this plugin and, by extension, the Wikimedia REST API, you agree to Wikimedia's [Terms of Use](https://wikimediafoundation.org/wiki/Terms_of_Use) and [Privacy Policy](https://wikimediafoundation.org/wiki/Privacy_policy).
+Please inform yourself about any restrictions that might apply on the [REST API Documentation page](https://en.wikipedia.org/api/rest_v1/)
 
 ## Roadmap
 
@@ -26,21 +29,16 @@ This is a personal project. I am not affiliated with Wikipedia in any way. While
   + Basic functionality
   + Code refactor
 
-+ February 2019
++ Planned features
+  + Example website with this plugin included as a javascript dependency and some text to experiment
   + Support for images
   + Better positioning and off-screen handling
   + Loading animation while fetching data
-
-+ March 2019
   + Support for disambiguation
   + Settings:
     + On/Off toggle
     + Choice of selection method (double click or hotkey)
     + Choice of language
-
-+ Chrome Web Store release (March 2019)
-
-+ Planned features (2019)
   + Expand popup to read more
   + External link to Wikipedia
   + Match multiple languages at once
@@ -48,7 +46,10 @@ This is a personal project. I am not affiliated with Wikipedia in any way. While
     + Helps translating foreign words
   + Translate item to favorite languages
 
++ Pending
+  + Chrome Web Store release
+  + Firefox Add-ons release
+
 + Features in consideration
   + Locally saved history of lookups
-  + Firefox Support
   + Safari Support
