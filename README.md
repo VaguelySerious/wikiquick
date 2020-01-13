@@ -11,9 +11,16 @@ Here's how to use it while it's still unpublished:
 + Clone the repo
 + Run `npm install` or `yarn install`
 + Build it with `npm run build` or `yarn build`
+
+Then, in Chrome: 
 + Go to [the extensions page](chrome://extensions/) in Chrome
 + Enable developer mode on the top right
 + Click "Load unpacked" on the top left and navigate to `/public/` in the cloned repo
+Or in Firefox:
++ Go to [the debugging page](about:debugging#/runtime/this-firefox)
++ Click on "Load temporary Add-on", navigate to `/public/` and select the `manifest.json` file
+
+Finally:
 + Go to a web page of your choice
 + Double click on a word
 

@@ -1,3 +1,4 @@
 /node_modules/
 .env
-public/inject.js
+public/wikiquick.js
+.vscode
