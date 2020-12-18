@@ -3,6 +3,8 @@
 A lightweight plugin for in-page Wikipedia lookups by double-clicking on any word.  
 Creates information windows similar in style to those when hovering over links in Wikipedia.
 
+![Image of the plugin in use](https://wielander.me/img/wikiquick@2x.png)
+
 ## How to run
 
 Currently available only as an unpacked Chrome extension.
