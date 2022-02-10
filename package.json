@@ -14,7 +14,7 @@
     "css-loader": "2",
     "html-loader": "0",
     "html-webpack-plugin": "3",
-    "node-sass": "4",
+    "node-sass": "7",
     "sass-loader": "7",
     "style-loader": "0",
     "webpack": "4",
